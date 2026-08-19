@@ -1,0 +1,39 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# PowerShell
+*.tmp
+
+# Azure / authentication
+.azure/
+
+# Environment variables and secrets
+.env
+.env.*
+*.secret
+secrets/
+credentials/
+
+# Certificates and keys
+*.pem
+*.key
+*.pfx
+*.cer
+
+# Terraform - excluded defensively
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# Logs
+*.log
+
+# Temporary files
+temp/
+tmp/
