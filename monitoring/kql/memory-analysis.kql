@@ -1,0 +1,8 @@
+// Azure Operations & Monitoring Lab
+// Purpose: Analyze available memory by monitored computer.
+
+Perf
+| where CounterName == "Available MBytes"
+| summarize AverageAvailableMemoryMB = avg(CounterValue)
+    by Computer, bin(TimeGenerated, 5m)
+| order by TimeGenerated desc

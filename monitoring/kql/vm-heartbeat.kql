@@ -1,0 +1,7 @@
+// Azure Operations & Monitoring Lab
+// Purpose: Identify the most recent heartbeat received from each monitored computer.
+
+Heartbeat
+| summarize LastHeartbeat = max(TimeGenerated) by Computer
+| extend MinutesSinceLastHeartbeat = datetime_diff("minute", now(), LastHeartbeat)
+| order by LastHeartbeat desc

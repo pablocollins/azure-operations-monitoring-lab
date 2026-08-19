@@ -1,0 +1,9 @@
+// Azure Operations & Monitoring Lab
+// Purpose: Analyze average CPU utilization in 5-minute intervals.
+
+Perf
+| where CounterName == "% Processor Time"
+| where InstanceName == "_Total"
+| summarize AverageCPU = avg(CounterValue)
+    by Computer, bin(TimeGenerated, 5m)
+| order by TimeGenerated desc
