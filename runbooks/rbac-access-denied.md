@@ -81,7 +81,7 @@ Check:
 
 Useful PowerShell commands include:
 
-```powershell id="wb6v4m"
+```powershell
 Get-AzADUser
 Get-AzADGroupMember
 Get-AzRoleAssignment
@@ -89,7 +89,7 @@ Get-AzRoleAssignment
 
 Useful Azure CLI commands include:
 
-```bash id="zx6xys"
+```bash
 az ad user show
 az ad group member list
 az role assignment list
@@ -101,7 +101,7 @@ Confirm that the role assignment applies to the affected resource.
 
 Review assignments at:
 
-```text id="bq6lps"
+```text
 Subscription
     ↓
 Resource Group
