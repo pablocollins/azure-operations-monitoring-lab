@@ -79,43 +79,54 @@ The conceptual environment includes:
 
 ### Logical Architecture
 
-```text
-                    Microsoft Entra ID
-                           |
-                    Authentication
-                           |
-                           v
-                       Azure RBAC
-                           |
-          +----------------+----------------+
-          |                                 |
-          v                                 v
-   Cloud Operations                 Managed Identities
-          |
-          v
-+-------------------------------------------------------+
-|                 Azure Subscription                    |
-|                                                       |
-|  Resource Group: rg-ops-lab                           |
-|                                                       |
-|  +-------------------------------------------------+  |
-|  | VNet: vnet-ops-lab  10.10.0.0/16               |  |
-|  |                                                 |  |
-|  |  snet-servers          snet-management          |  |
-|  |  10.10.1.0/24         10.10.2.0/24             |  |
-|  |       |                       |                 |  |
-|  |       +-- vm-win-ops-01       |                 |  |
-|  |       +-- vm-linux-app-01     |                 |  |
-|  |                                                 |  |
-|  |            Network Security Groups              |  |
-|  +-------------------------------------------------+  |
-|                                                       |
-|  Azure Monitor ---> Log Analytics ---> KQL            |
-|         |                                             |
-|         +------------> Alert Rules                    |
-|                                                       |
-|  Azure Backup ---> Recovery Services Vault            |
-+-------------------------------------------------------+
+```mermaid
+flowchart TB
+
+    Entra["Microsoft Entra ID"]
+    RBAC["Azure RBAC"]
+    Ops["Cloud Operations Team"]
+    MI["Managed Identities"]
+
+    Entra --> RBAC
+    RBAC --> Ops
+    RBAC --> MI
+
+    subgraph Azure["Azure Subscription"]
+        RG["Resource Group: rg-ops-lab"]
+
+        subgraph Network["VNet: vnet-ops-lab - 10.10.0.0/16"]
+            Servers["snet-servers<br/>10.10.1.0/24"]
+            Management["snet-management<br/>10.10.2.0/24"]
+            WinVM["vm-win-ops-01<br/>Windows Server"]
+            LinuxVM["vm-linux-app-01<br/>Linux"]
+            NSG["Network Security Groups"]
+
+            Servers --> WinVM
+            Servers --> LinuxVM
+            NSG --> Servers
+            NSG --> Management
+        end
+
+        Monitor["Azure Monitor"]
+        Logs["Log Analytics"]
+        KQL["KQL Queries"]
+        Alerts["Alert Rules"]
+        Backup["Azure Backup"]
+        Vault["Recovery Services Vault"]
+
+        RG --> Network
+        RG --> Monitor
+        RG --> Backup
+
+        Monitor --> Logs
+        Logs --> KQL
+        Monitor --> Alerts
+        Backup --> Vault
+    end
+
+    Ops --> RG
+    MI --> WinVM
+    MI --> LinuxVM
 ```
 
 ---
